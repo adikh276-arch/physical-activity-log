@@ -1,4 +1,3 @@
-
 import { Pool, neonConfig } from '@neondatabase/serverless';
 
 // Essential for use in browser/edge environments
@@ -6,9 +5,30 @@ neonConfig.fetchConnectionCache = true;
 
 const connectionString = import.meta.env.VITE_DATABASE_URL;
 
+if (!connectionString) {
+    console.error('✘ VITE_DATABASE_URL is not defined. Please ensure your .env file is loaded and Vite is restarted.');
+}
+
 export const pool = new Pool({
     connectionString: connectionString,
 });
+
+// Configure the proxy explicitly to match the hostname to avoid guessing
+neonConfig.wsProxy = (host) => {
+    // If connectionString is present, we can extract the correct host
+    if (connectionString && (host === 'localhost' || !host)) {
+        try {
+            const url = new URL(connectionString);
+            return `${url.hostname}/v2`;
+        } catch (e) {
+            // Fallback for non-standard formats
+            const match = connectionString.match(/@([^/]+)\//);
+            if (match) return `${match[1]}/v2`;
+        }
+    }
+    return `${host}/v2`;
+};
+
 
 /**
  * Executes the schema SQL if tables don't exist.

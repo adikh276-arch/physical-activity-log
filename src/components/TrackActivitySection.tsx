@@ -19,15 +19,6 @@ const TrackActivitySection = () => {
     addActivity, editActivity, deleteActivity, isLoading
   } = useActivities();
 
-  if (isLoading) {
-    return (
-      <div className="py-24 text-center">
-        <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-        <p className="text-muted-foreground animate-pulse">Loading activities...</p>
-      </div>
-    );
-  }
-
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [activity, setActivity] = useState("");
   const [duration, setDuration] = useState("");
@@ -38,6 +29,15 @@ const TrackActivitySection = () => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState("");
   const [editDuration, setEditDuration] = useState("");
+
+  if (isLoading) {
+    return (
+      <div className="py-24 text-center">
+        <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-muted-foreground animate-pulse">Loading activities...</p>
+      </div>
+    );
+  }
 
   const handleAdd = () => {
     if (!activity || !duration || !date) return;
