@@ -1,33 +1,33 @@
 import { Pool, neonConfig } from '@neondatabase/serverless';
 
-// Essential for use in browser/edge environments
+// Essential for browser environments
 neonConfig.fetchConnectionCache = true;
 
 const connectionString = import.meta.env.VITE_DATABASE_URL;
 
 if (!connectionString) {
-    console.error('✘ VITE_DATABASE_URL is not defined. Please ensure your .env file is loaded and Vite is restarted.');
+    console.error('✘ DATABASE_URL ERROR: The connection string is missing! Since this is a production build, you MUST add DATABASE_URL as a secret in your GitHub repository before building the Docker image.');
 }
 
 export const pool = new Pool({
     connectionString: connectionString,
 });
 
-// Configure the proxy explicitly to match the hostname to avoid guessing
 neonConfig.wsProxy = (host) => {
-    // If connectionString is present, we can extract the correct host
+    // Correctly extract the host if we have a valid Neon connection string, avoid localhost defaults
     if (connectionString && (host === 'localhost' || !host)) {
         try {
             const url = new URL(connectionString);
             return `${url.hostname}/v2`;
         } catch (e) {
-            // Fallback for non-standard formats
+            // Last-resort fallback if URL parser fails on certain protocols
             const match = connectionString.match(/@([^/]+)\//);
             if (match) return `${match[1]}/v2`;
         }
     }
     return `${host}/v2`;
 };
+
 
 
 /**
