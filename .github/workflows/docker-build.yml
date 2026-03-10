@@ -27,3 +27,8 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: bunker.mantracare.com/lovable/physical_activity_log:1.0
+          build-args: |
+            VITE_DATABASE_URL=${{ secrets.DATABASE_URL }}
+            NEON_PROJECT_ID=${{ secrets.NEON_PROJECT_ID }}
+            NEON_API_KEY=${{ secrets.NEON_API_KEY }}
+

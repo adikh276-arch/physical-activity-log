@@ -16,8 +16,17 @@ const TrackActivitySection = () => {
   const { t } = useTranslation();
   const {
     groupedByDate, stats, chartData, weeklyTrend,
-    addActivity, editActivity, deleteActivity,
+    addActivity, editActivity, deleteActivity, isLoading
   } = useActivities();
+
+  if (isLoading) {
+    return (
+      <div className="py-24 text-center">
+        <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-muted-foreground animate-pulse">Loading activities...</p>
+      </div>
+    );
+  }
 
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [activity, setActivity] = useState("");
