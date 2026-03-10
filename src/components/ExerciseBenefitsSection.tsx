@@ -1,49 +1,50 @@
-const chemicalCards = [
-  {
-    emoji: "🧘",
-    title: "Endorphins",
-    description: "Helps reduce pain and boosts mood.",
-  },
-  {
-    emoji: "🌿",
-    title: "Serotonin",
-    description: "Improves emotional balance and promotes calm.",
-  },
-  {
-    emoji: "⚡",
-    title: "Dopamine",
-    description: "Enhances motivation, focus, and reward.",
-  },
-];
-
-const deeperCards = [
-  {
-    emoji: "🧠",
-    title: "Memory & Learning",
-    description:
-      "Exercise increases blood flow to the brain, helping improve memory and cognitive function.",
-  },
-  {
-    emoji: "😴",
-    title: "Stress Response",
-    description:
-      "Physical activity lowers stress hormones and helps your nervous system reset.",
-  },
-];
+import { useTranslation } from "react-i18next";
 
 const ExerciseBenefitsSection = () => {
+  const { t } = useTranslation();
+
+  const chemicalCards = [
+    {
+      emoji: "🧘",
+      title: t("endorphins_title"),
+      description: t("endorphins_desc"),
+    },
+    {
+      emoji: "🌿",
+      title: t("serotonin_title"),
+      description: t("serotonin_desc"),
+    },
+    {
+      emoji: "⚡",
+      title: t("dopamine_title"),
+      description: t("dopamine_desc"),
+    },
+  ];
+
+  const deeperCards = [
+    {
+      emoji: "🧠",
+      title: t("memory_title"),
+      description: t("memory_desc"),
+    },
+    {
+      emoji: "😴",
+      title: t("stress_title"),
+      description: t("stress_desc"),
+    },
+  ];
+
   return (
     <section className="py-16 md:py-24">
       <div className="section-container">
         <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground text-center mb-3">
-          🧠 What Happens When You Exercise?
+          🧠 {t("benefits_title")}
         </h2>
         <p className="text-muted-foreground text-center text-lg max-w-2xl mx-auto mb-6">
-          When you get your heart pumping, your brain makes some amazing changes.
-          Think of it like upgrading your brain's operating system.
+          {t("benefits_subtitle")}
         </p>
         <p className="text-foreground text-center font-medium text-lg mb-10">
-          Right away, your body releases natural mood boosters:
+          {t("benefits_intro")}
         </p>
 
         {/* Chemical cards */}
@@ -62,12 +63,12 @@ const ExerciseBenefitsSection = () => {
         {/* Callout */}
         <div className="wellness-callout max-w-3xl mx-auto mb-10">
           <p className="text-base md:text-lg font-medium text-accent-foreground">
-            💡 Just 15 minutes of running can cut your risk of depression by 26%.
+            💡 {t("benefits_callout")}
           </p>
         </div>
 
         <p className="text-foreground text-center font-medium text-lg mb-8 max-w-2xl mx-auto">
-          That's not all — there's even more happening behind the scenes:
+          {t("benefits_more")}
         </p>
 
         {/* Deeper cards */}

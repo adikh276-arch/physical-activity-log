@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { format, parseISO } from "date-fns";
 import { CalendarIcon, Pencil, Trash2, ChevronDown, ChevronUp } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -12,6 +13,7 @@ import {
 } from "recharts";
 
 const TrackActivitySection = () => {
+  const { t } = useTranslation();
   const {
     groupedByDate, stats, chartData, weeklyTrend,
     addActivity, editActivity, deleteActivity,
@@ -79,17 +81,17 @@ const TrackActivitySection = () => {
     <section className="py-12 md:py-24">
       <div className="section-container">
         <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground text-center mb-2">
-          📊 Track Your Activity
+          📊 {t("track_title")}
         </h2>
         <p className="text-muted-foreground text-center text-base md:text-lg mb-8 md:mb-12 max-w-md mx-auto">
-          Log your daily activities and monitor your progress over time.
+          {t("track_subtitle")}
         </p>
 
         {/* Entry + Summary Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto mb-8 md:mb-12">
           {/* Activity Entry Card */}
           <div className="wellness-card space-y-3 md:space-y-4">
-            <h3 className="font-serif text-lg md:text-xl font-semibold text-foreground">Activity Log</h3>
+            <h3 className="font-serif text-lg md:text-xl font-semibold text-foreground">{t("activity_log")}</h3>
             <div className="space-y-3">
               {/* Date Picker */}
               <Popover>
@@ -102,7 +104,7 @@ const TrackActivitySection = () => {
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date ? format(date, "PPP") : <span>📅 Pick a date</span>}
+                    {date ? format(date, "PPP") : <span>📅 {t("pick_date")}</span>}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
@@ -118,20 +120,20 @@ const TrackActivitySection = () => {
 
               <input
                 type="text"
-                placeholder="🏃 Activity (e.g. Run)"
+                placeholder={t("activity_placeholder")}
                 value={activity}
                 onChange={(e) => setActivity(e.target.value)}
                 className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               />
               <input
                 type="number"
-                placeholder="⏱ Duration (min)"
+                placeholder={t("duration_placeholder")}
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)}
                 className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               />
               <textarea
-                placeholder="📝 Notes (optional)"
+                placeholder={t("notes_placeholder")}
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={2}
@@ -139,24 +141,24 @@ const TrackActivitySection = () => {
               />
             </div>
             <Button onClick={handleAdd} className="w-full rounded-xl h-10 md:h-11 font-semibold">
-              Save Activity
+              {t("save_activity")}
             </Button>
           </div>
 
           {/* Progress Summary Card */}
           <div className="wellness-card-blue space-y-3 md:space-y-4">
             <h3 className="font-serif text-lg md:text-xl font-semibold text-accent-foreground">
-              📈 Progress Summary
+              📈 {t("progress_summary")}
             </h3>
             <div className="grid grid-cols-2 gap-3">
-              <StatBox label="This Week" value={`${stats.weekMinutes} min`} />
-              <StatBox label="This Month" value={`${stats.monthMinutes} min`} />
-              <StatBox label="Most Frequent" value={stats.mostFrequent} />
-              <StatBox label="Longest Session" value={stats.longestSession > 0 ? `${stats.longestSession} min` : "—"} />
+              <StatBox label={t("this_week")} value={`${stats.weekMinutes} min`} />
+              <StatBox label={t("this_month")} value={`${stats.monthMinutes} min`} />
+              <StatBox label={t("most_frequent")} value={stats.mostFrequent} />
+              <StatBox label={t("longest_session")} value={stats.longestSession > 0 ? `${stats.longestSession} min` : "—"} />
             </div>
             <div className="pt-3 border-t border-border/50 flex justify-between items-center">
-              <span className="text-sm font-medium text-foreground">🔥 Current Streak</span>
-              <span className="text-xl md:text-2xl font-bold text-primary">{stats.streak} day{stats.streak !== 1 ? "s" : ""}</span>
+              <span className="text-sm font-medium text-foreground">🔥 {t("current_streak")}</span>
+              <span className="text-xl md:text-2xl font-bold text-primary">{stats.streak} {stats.streak === 1 ? t("day") : t("days")}</span>
             </div>
           </div>
         </div>
@@ -164,7 +166,7 @@ const TrackActivitySection = () => {
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto mb-8 md:mb-12">
           <div className="wellness-card">
-            <h4 className="font-serif text-base md:text-lg font-semibold text-foreground mb-4">Last 7 Days</h4>
+            <h4 className="font-serif text-base md:text-lg font-semibold text-foreground mb-4">{t("last_7_days")}</h4>
             <ResponsiveContainer width="100%" height={180}>
               <BarChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(210 25% 90%)" />
@@ -183,7 +185,7 @@ const TrackActivitySection = () => {
             </ResponsiveContainer>
           </div>
           <div className="wellness-card">
-            <h4 className="font-serif text-base md:text-lg font-semibold text-foreground mb-4">Weekly Trend</h4>
+            <h4 className="font-serif text-base md:text-lg font-semibold text-foreground mb-4">{t("weekly_trend")}</h4>
             <ResponsiveContainer width="100%" height={180}>
               <LineChart data={weeklyTrend}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(210 25% 90%)" />
@@ -205,7 +207,7 @@ const TrackActivitySection = () => {
 
         {/* Activity History */}
         <div className="max-w-4xl mx-auto">
-          <h3 className="font-serif text-xl md:text-2xl font-bold text-foreground mb-4">📅 Activity History</h3>
+          <h3 className="font-serif text-xl md:text-2xl font-bold text-foreground mb-4">📅 {t("activity_history")}</h3>
 
           {/* Filters */}
           <div className="flex flex-col sm:flex-row gap-3 mb-4">
@@ -219,7 +221,7 @@ const TrackActivitySection = () => {
                     viewMode === mode ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
                   )}
                 >
-                  {mode}
+                  {t(mode)}
                 </button>
               ))}
             </div>
@@ -227,7 +229,7 @@ const TrackActivitySection = () => {
               <PopoverTrigger asChild>
                 <Button variant="outline" size="sm" className="rounded-xl text-xs md:text-sm">
                   <CalendarIcon className="mr-2 h-3.5 w-3.5" />
-                  {filterDate ? format(filterDate, "PPP") : "Filter by date"}
+                  {filterDate ? format(filterDate, "PPP") : t("filter_by_date")}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
@@ -242,7 +244,7 @@ const TrackActivitySection = () => {
             </Popover>
             {filterDate && (
               <Button variant="ghost" size="sm" onClick={() => setFilterDate(undefined)} className="text-xs md:text-sm">
-                Clear filter
+                {t("clear_filter")}
               </Button>
             )}
           </div>
@@ -251,7 +253,7 @@ const TrackActivitySection = () => {
           <div className="space-y-3">
             {filteredDates.length === 0 && (
               <div className="wellness-card-blue text-center py-8">
-                <p className="text-muted-foreground">No activities logged yet. Start tracking above! 🚀</p>
+                <p className="text-muted-foreground">{t("no_activities")}</p>
               </div>
             )}
             {filteredDates.map(dateStr => {
@@ -291,8 +293,8 @@ const TrackActivitySection = () => {
                                 onChange={e => setEditDuration(e.target.value)}
                                 className="rounded-lg border border-input bg-background px-2 py-1 text-sm w-20"
                               />
-                              <Button size="sm" onClick={saveEdit} className="h-7 text-xs rounded-lg">Save</Button>
-                              <Button size="sm" variant="ghost" onClick={() => setEditingId(null)} className="h-7 text-xs">Cancel</Button>
+                              <Button size="sm" onClick={saveEdit} className="h-7 text-xs rounded-lg">{t("save")}</Button>
+                              <Button size="sm" variant="ghost" onClick={() => setEditingId(null)} className="h-7 text-xs">{t("cancel")}</Button>
                             </div>
                           ) : (
                             <>
@@ -314,8 +316,8 @@ const TrackActivitySection = () => {
                         </div>
                       ))}
                       <div className="pt-2 border-t border-border/30 flex justify-between">
-                        <span className="text-xs font-medium text-foreground">Daily Total</span>
-                        <span className="text-sm font-bold text-primary">{dayTotal} minutes</span>
+                        <span className="text-xs font-medium text-foreground">{t("daily_total")}</span>
+                        <span className="text-sm font-bold text-primary">{dayTotal} {t("minutes")}</span>
                       </div>
                     </div>
                   )}

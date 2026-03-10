@@ -1,12 +1,15 @@
+import { useTranslation } from "react-i18next";
 import heroImage from "@/assets/hero-jogging.jpg";
 
 const HeroSection = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="relative w-full min-h-[90vh] md:min-h-screen flex items-center overflow-hidden">
       {/* Background Image */}
       <img
         src={heroImage}
-        alt="Woman jogging on a forest trail at sunrise"
+        alt={t("hero_title_1")}
         className="absolute inset-0 w-full h-full object-cover"
         loading="eager"
       />
@@ -27,21 +30,20 @@ const HeroSection = () => {
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-wellness-navy/80 shadow-md mb-8">
           <span className="text-sm">✨</span>
           <span className="text-sm font-medium text-primary-foreground tracking-wide">
-            Physical Activity Test
+            {t("badge")}
           </span>
         </div>
 
         {/* Heading */}
         <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-5 max-w-2xl">
-          <span className="text-primary-foreground">Move Your Body,</span>
+          <span className="text-primary-foreground">{t("hero_title_1")}</span>
           <br />
-          <span className="text-wellness-accent">Transform Your Mind</span>
+          <span className="text-wellness-accent">{t("hero_title_2")}</span>
         </h1>
 
         {/* Subheading */}
         <p className="text-base sm:text-lg md:text-xl text-primary-foreground/75 max-w-lg leading-relaxed font-sans">
-          Discover how exercise can upgrade your brain's operating system and
-          build a lasting habit for better mental health.
+          {t("hero_subtitle")}
         </p>
       </div>
     </section>
